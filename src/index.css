@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================= ROOT VARIABLES ================= */
+:root {
+  --gold: #B8965A;
+  --gold-light: #D4B483;
+  --gold-dark: #8A6D3B;
+  --cream: #FAF8F4;
+  --cream2: #F5F1EA;
+  --slate: #2C2C2A;
+  --slate2: #4A4845;
+  --muted: #888780;
+  --white: #FFFFFF;
+  --border: #E8E3D9;
+}
+
+/* ================= GLOBAL RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #ffffff;
+  color: var(--slate);
+  overflow-x: hidden;
+}
+
+/* ================= SWIPER STYLES ================= */
+.swiper-pagination-bullet {
+  background: var(--gold) !important;
+  opacity: 0.4;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background: var(--gold) !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--gold) !important;
+}
+
+/* ================= SCROLLBAR ================= */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+}
+
+/* ================= SLIDER ANIMATION ================= */
+@keyframes scrollX {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scrollX 35s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* ================= COMPONENTS ================= */
+@layer components {
+
+  .section-tag {
+    @apply inline-block text-xs tracking-widest uppercase border-t border-gold text-gold pt-1.5 mb-6;
+  }
+
+  .section-title {
+    @apply font-sans text-4xl md:text-5xl font-light leading-tight;
+    color: var(--slate);
+  }
+
+  .section-title em {
+    @apply not-italic text-gold;
+  }
+
+  .gold-divider {
+    @apply w-10 h-px bg-gold my-6;
+  }
+
+  .btn-primary {
+    @apply bg-gold text-white px-8 py-3.5 text-xs font-medium tracking-widest uppercase transition-all duration-300 hover:bg-gold-dark cursor-pointer border-none;
+  }
+
+  .btn-outline {
+    @apply bg-transparent text-white border border-white/50 px-8 py-3.5 text-xs font-medium tracking-widest uppercase transition-all duration-300 hover:border-gold-light hover:text-gold-light cursor-pointer;
+  }
+
+  .btn-outline-dark {
+    @apply bg-transparent px-8 py-3.5 text-xs font-medium tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    border: 1px solid var(--border);
+    color: var(--slate);
+  }
+
+  .btn-outline-dark:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+}
