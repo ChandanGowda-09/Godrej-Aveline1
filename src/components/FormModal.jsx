@@ -33,7 +33,6 @@ export default function FormModal({ onClose, type }) {
       data.append("phone", form.phone);
       data.append("email", form.email);
 
-      // ✅ Dynamic subject
       data.append(
         "subject",
         type === "brochure"
@@ -41,7 +40,6 @@ export default function FormModal({ onClose, type }) {
           : "Site Visit Booking - Godrej Aveline"
       );
 
-      // ✅ Track source
       data.append(
         "source",
         type === "brochure" ? "Brochure Click" : "Site Visit"
@@ -57,7 +55,6 @@ export default function FormModal({ onClose, type }) {
       if (result.success) {
         alert("Submitted successfully! Our team will contact you.");
 
-        // ✅ Download brochure ONLY if brochure
         if (type === "brochure") {
           const link = document.createElement("a");
           link.href = "/brochure.pdf";
@@ -83,42 +80,51 @@ export default function FormModal({ onClose, type }) {
     >
       <motion.div
         onClick={(e) => e.stopPropagation()}
-        initial={{ scale: 0.8, opacity: 0 }}
+        initial={{ scale: 0.85, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-lg p-8 w-[90%] max-w-md relative"
+        className="bg-white/95 backdrop-blur-md rounded-xl p-5 w-[85%] max-w-sm shadow-2xl relative"
       >
-        <button onClick={onClose} className="absolute top-3 right-3 text-xl">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-3 text-lg text-gray-500 hover:text-black"
+        >
           ✕
         </button>
 
-        {/* ✅ Dynamic Title */}
-        <h2 className="text-xl font-semibold mb-4">
-          {type === "brochure" ? "Download Brochure" : "Download Brochure"}
+        {/* Title */}
+        <h2 className="text-lg font-semibold mb-3 text-center">
+          {type === "brochure"
+            ? "Download Brochure"
+            : "Book Site Visit"}
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-3">
           <input
             name="name"
             onChange={handleChange}
-            placeholder="Name"
-            className="w-full border p-3 rounded"
+            placeholder="Your Name"
+            className="w-full border p-2 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
           />
+
           <input
             name="phone"
             onChange={handleChange}
-            placeholder="Phone"
-            className="w-full border p-3 rounded"
+            placeholder="Phone Number"
+            className="w-full border p-2 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
           />
+
           <input
             name="email"
             onChange={handleChange}
-            placeholder="Email"
-            className="w-full border p-3 rounded"
+            placeholder="Email Address"
+            className="w-full border p-2 text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gold"
           />
 
           <button
             disabled={loading}
-            className="w-full bg-gold text-white py-3 rounded"
+            className="w-full bg-gold text-white py-2 text-sm rounded-md hover:opacity-90 transition"
           >
             {loading ? "Submitting..." : "Submit"}
           </button>
