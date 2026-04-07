@@ -6,12 +6,10 @@ import FormModal from './FormModal'
 export default function Hero() {
   const [showForm, setShowForm] = useState(false)
 
-  // ✅ FORM STATE (ADDED)
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    bhk: '',
     message: ''
   })
 
@@ -27,21 +25,12 @@ export default function Hero() {
 
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         access_key: "9d40a6f7-55b3-408d-bdd8-7dbd83e7ab2b",
-
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        bhk: formData.bhk,
-        message: formData.message,
-
+        ...formData,
         subject: "New Lead from Hero Form",
-        from_name: "Godrej Aveline Website",
-        source: "Hero Section"
+        from_name: "Godrej Aveline Website"
       })
     })
 
@@ -49,102 +38,100 @@ export default function Hero() {
 
     if (data.success) {
       alert("Submitted successfully ✅")
-
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        bhk: '',
-        message: ''
-      })
+      setFormData({ name: '', phone: '', email: '', message: '' })
     } else {
       alert("Something went wrong ❌")
     }
   }
 
-  const handleScroll = (href) => {
-    const target = document.querySelector(href)
-    if (target) target.scrollIntoView({ behavior: 'smooth' })
+  const handleScroll = (id) => {
+    const el = document.querySelector(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
-  // 🔥 AUTO POPUP (UNCHANGED)
-useEffect(() => {
-  const popupKey = "popupShown"
-
-  // ✅ If already shown once → stop
-  if (localStorage.getItem(popupKey) === "true") return
-
-  const timer = setTimeout(() => {
-    setShowForm(true)
-
-    // ✅ Save permanently (only once ever)
-    localStorage.setItem(popupKey, "true")
-  }, 10000)
-
-  return () => clearTimeout(timer)
-}, [])
+  useEffect(() => {
+    if (localStorage.getItem("popupShown")) return
+    const timer = setTimeout(() => {
+      setShowForm(true)
+      localStorage.setItem("popupShown", "true")
+    }, 10000)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <>
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen overflow-hidden">
 
         {/* Background */}
         <div className="absolute inset-0 bg-[#1a1814]" />
 
         {/* Pattern */}
-        <div className="absolute inset-0 opacity-[0.06]"
+        <div
+          className="absolute inset-0 opacity-[0.06]"
           style={{
-            backgroundImage: 'repeating-linear-gradient(45deg, #B8965A 0, #B8965A 1px, transparent 0, transparent 50%)',
+            backgroundImage:
+              'repeating-linear-gradient(45deg, #B8965A 0, #B8965A 1px, transparent 0, transparent 50%)',
             backgroundSize: '60px 60px',
           }}
         />
 
         {/* Image */}
-        <div className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/hero.webp')",
-            opacity: 0.38,
-          }}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/hero.webp')", opacity: 0.4 }}
         />
 
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black/70" />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
 
-        {/* CONTENT */}
-        <div className="relative z-10 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        {/* ✅ CENTER TEXT */}
+        <div className="absolute inset-0 flex items-center justify-center z-10 text-center">
+          <div className="max-w-2xl">
 
-          {/* LEFT */}
-          <div className="text-center md:text-left">
-            <motion.div className="inline-block border border-gold/50 text-gold-light text-[10px] tracking-[0.35em] uppercase px-6 py-2 mb-8">
+            <motion.div className="inline-block border border-[#B8965A]/50 text-[#B8965A] text-xs tracking-[0.3em] uppercase px-5 py-2 mb-6">
               Godrej Properties Presents
             </motion.div>
 
-            <motion.h1 className="text-white leading-[1.05]" style={{ fontSize: 'clamp(3.5rem, 8vw, 7rem)' }}>
-              Godrej <br />
-              <span className="text-gold-light">Aveline</span>
-            </motion.h1>
+            <motion.h1
+  className="text-white leading-[1.05] tracking-tight font-light"
+  style={{ fontSize: "clamp(4.5rem, 10vw, 9rem)" }}
+>
+  Godrej <br />
+  <span className="text-[#B8965A] font-medium">
+    Aveline
+  </span>
+</motion.h1>
 
-            <motion.p className="text-white/65 text-xs tracking-[0.3em] uppercase mt-5">
+            <motion.p className="text-white/70 mt-4 text-sm tracking-widest uppercase">
               Luxury Living Redefined
             </motion.p>
 
-            <div className="flex gap-4 mt-10">
-              <button className="btn-primary" onClick={() => setShowForm(true)}>
+            <div className="flex justify-center gap-4 mt-8">
+              <button
+                className="bg-[#B8965A] text-white px-6 py-3 text-sm rounded-md"
+                onClick={() => setShowForm(true)}
+              >
                 Book Site Visit
               </button>
 
-              <button className="btn-outline" onClick={() => handleScroll('#about')}>
+              <button
+                className="border border-white text-white px-6 py-3 text-sm rounded-md"
+                onClick={() => handleScroll('#about')}
+              >
                 Explore Project
               </button>
             </div>
-          </div>
 
-          {/* 🔥 RIGHT FORM (CONNECTED TO WEB3FORMS) */}
+          </div>
+        </div>
+
+        {/* ✅ RIGHT FORM */}
+        <div className="absolute right-6 md:right-16 top-1/2 -translate-y-1/2 z-20">
           <form
             onSubmit={handleSubmit}
-            className="bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-xl shadow-2xl"
+            className="bg-white/95 backdrop-blur-md p-5 rounded-xl shadow-2xl w-[280px] md:w-[320px]"
           >
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+            <h2 className="text-lg font-semibold mb-3 text-gray-800">
               Request a Callback
             </h2>
 
@@ -154,7 +141,7 @@ useEffect(() => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Your full name"
-              className="w-full border p-3 mb-3"
+              className="w-full border p-2 text-sm mb-3 rounded-md"
               required
             />
 
@@ -164,7 +151,7 @@ useEffect(() => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="+91 XXXXX XXXXX"
-              className="w-full border p-3 mb-3"
+              className="w-full border p-2 text-sm mb-3 rounded-md"
               required
             />
 
@@ -174,50 +161,35 @@ useEffect(() => {
               value={formData.email}
               onChange={handleChange}
               placeholder="your@email.com"
-              className="w-full border p-3 mb-3"
+              className="w-full border p-2 text-sm mb-3 rounded-md"
               required
             />
-
-            <select
-              name="bhk"
-              value={formData.bhk}
-              onChange={handleChange}
-              className="w-full border p-3 mb-3"
-              required
-            >
-              <option value="">Select BHK type</option>
-              <option>2 BHK</option>
-              <option>3 BHK</option>
-              <option>4 BHK</option>
-            </select>
 
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
               placeholder="Any specific requirements..."
-              className="w-full border p-3 mb-4"
-              rows={4}
+              className="w-full border p-2 text-sm mb-3 rounded-md h-20"
             />
 
-            <button className="w-full bg-[#B8965A] text-white py-3">
+            <button className="w-full py-2 text-sm bg-[#B8965A] text-white rounded-md">
               Request a Callback
             </button>
 
-            <p className="text-xs text-gray-500 mt-3">
+            <p className="text-xs text-gray-500 mt-2">
               By submitting, you agree to be contacted by our team.
             </p>
           </form>
-
         </div>
 
-        {/* Scroll */}
-        <motion.button className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <ChevronDown className="text-white" />
-        </motion.button>
+        {/* Scroll Icon */}
+        <motion.div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+          <ChevronDown className="text-white animate-bounce" />
+        </motion.div>
+
       </section>
 
-      {/* POPUP */}
       {showForm && <FormModal onClose={() => setShowForm(false)} />}
     </>
   )
