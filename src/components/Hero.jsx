@@ -6,6 +6,9 @@ import FormModal from './FormModal'
 export default function Hero() {
   const [showForm, setShowForm] = useState(false)
 
+  // ✅ NEW STATE (for side form only)
+  const [showSideForm, setShowSideForm] = useState(true)
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -62,10 +65,8 @@ export default function Hero() {
     <>
       <section className="relative h-screen overflow-hidden">
 
-        {/* Background */}
         <div className="absolute inset-0 bg-[#1a1814]" />
 
-        {/* Pattern */}
         <div
           className="absolute inset-0 opacity-[0.06]"
           style={{
@@ -75,16 +76,14 @@ export default function Hero() {
           }}
         />
 
-        {/* Image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/hero.webp')", opacity: 0.4 }}
         />
 
-        {/* Overlay */}
         <div className="absolute inset-0 bg-black/60" />
 
-        {/* ✅ CENTER TEXT */}
+        {/* CENTER TEXT */}
         <div className="absolute inset-0 flex items-center justify-center z-10 text-center">
           <div className="max-w-2xl">
 
@@ -93,14 +92,14 @@ export default function Hero() {
             </motion.div>
 
             <motion.h1
-  className="text-white leading-[1.05] tracking-tight font-light"
-  style={{ fontSize: "clamp(4.5rem, 10vw, 9rem)" }}
->
-  Godrej <br />
-  <span className="text-[#B8965A] font-medium">
-    Aveline
-  </span>
-</motion.h1>
+              className="text-white leading-[1.05] tracking-tight font-light"
+              style={{ fontSize: "clamp(4.5rem, 10vw, 9rem)" }}
+            >
+              Godrej <br />
+              <span className="text-[#B8965A] font-medium">
+                Aveline
+              </span>
+            </motion.h1>
 
             <motion.p className="text-white/70 mt-4 text-sm tracking-widest uppercase">
               Luxury Living Redefined
@@ -126,64 +125,76 @@ export default function Hero() {
         </div>
 
         {/* ✅ RIGHT FORM */}
-        <div className="absolute right-6 md:right-16 top-1/2 -translate-y-1/2 z-20">
-          <form
-            onSubmit={handleSubmit}
-            className="bg-white/95 backdrop-blur-md p-5 rounded-xl shadow-2xl w-[280px] md:w-[320px]"
-          >
-            <h2 className="text-lg font-semibold mb-3 text-gray-800">
-              Request a Callback
-            </h2>
+        {showSideForm && (
+          <div className="absolute right-6 md:right-16 top-1/2 -translate-y-1/2 z-20">
+            <form
+              onSubmit={handleSubmit}
+              className="relative bg-white/95 backdrop-blur-md p-5 rounded-xl shadow-2xl w-[280px] md:w-[320px]"
+            >
 
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Your full name"
-              className="w-full border p-2 text-sm mb-3 rounded-md"
-              required
-            />
+              {/* ✅ CLOSE BUTTON (FIXED) */}
+              <button
+                type="button"
+                onClick={() => setShowSideForm(false)}
+                className="absolute top-2 right-3 text-gray-500 hover:text-black text-xl"
+              >
+                ✕
+              </button>
 
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="+91 XXXXX XXXXX"
-              className="w-full border p-2 text-sm mb-3 rounded-md"
-              required
-            />
+              <h2 className="text-lg font-semibold mb-3 text-gray-800">
+                Request a Callback
+              </h2>
 
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="your@email.com"
-              className="w-full border p-2 text-sm mb-3 rounded-md"
-              required
-            />
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Your full name"
+                className="w-full border p-2 text-sm mb-3 rounded-md"
+                required
+              />
 
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Any specific requirements..."
-              className="w-full border p-2 text-sm mb-3 rounded-md h-20"
-            />
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="+91 XXXXX XXXXX"
+                className="w-full border p-2 text-sm mb-3 rounded-md"
+                required
+              />
 
-            <button className="w-full py-2 text-sm bg-[#B8965A] text-white rounded-md">
-              Request a Callback
-            </button>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="your@email.com"
+                className="w-full border p-2 text-sm mb-3 rounded-md"
+                required
+              />
 
-            <p className="text-xs text-gray-500 mt-2">
-              By submitting, you agree to be contacted by our team.
-            </p>
-          </form>
-        </div>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Any specific requirements..."
+                className="w-full border p-2 text-sm mb-3 rounded-md h-20"
+              />
 
-        {/* Scroll Icon */}
+              <button className="w-full py-2 text-sm bg-[#B8965A] text-white rounded-md">
+                Request a Callback
+              </button>
+
+              <p className="text-xs text-gray-500 mt-2">
+                By submitting, you agree to be contacted by our team.
+              </p>
+
+            </form>
+          </div>
+        )}
+
         <motion.div className="absolute bottom-6 left-1/2 -translate-x-1/2">
           <ChevronDown className="text-white animate-bounce" />
         </motion.div>
